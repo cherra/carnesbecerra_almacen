@@ -11,6 +11,25 @@ int er=0;
 gboolean ya_codigo = FALSE;
 GtkTreeIter iter_articulos;
 
+G_MODULE_EXPORT
+void inicializa_variables( GtkWidget *widget, Data *data )
+{
+    printf("Inicializando variables....\n");
+    
+    strcpy(file_db_config, homedir);
+    strcat(file_db_config, "/.carnesbecerra/configuracionbd.dat");
+    /*
+     * Se inicializan las variables de configuración para impresiones
+     */
+    strcpy(ImpresoraConfig, homedir);
+    strcat(ImpresoraConfig, "/.carnesbecerra/impresoras.conf");
+    strcpy(TicketImpresion, homedir);
+    strcat(TicketImpresion, "/.carnesbecerra/impresion/impresiones-entradas-tmp.txt");
+    
+    printf("Listo!\n");
+        
+}
+
 int conecta_bd()
 {
 	FILE *fconfiguracionbd;
@@ -24,7 +43,8 @@ int conecta_bd()
 	char contrasena[50]="";
 	char bd[50]="";
 
-	if((fconfiguracionbd = fopen("configuracionbd.dat","r")))
+        
+	if((fconfiguracionbd = fopen(file_db_config,"r")))
 	{
 		while(!feof(fconfiguracionbd))
 		{
@@ -68,7 +88,7 @@ int conecta_bd()
 	}
 	else
 	{
-		printf("No se pudo abrir el archivo....\n");
+		printf("No se pudo abrir el archivo de configuracion: %s\n", file_db_config);
 		return -1;
 	}
 }
@@ -311,12 +331,12 @@ gboolean carga_proveedores( const char *filtro, Data *data )
 {
 	GtkTreeSelection *selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(data->treeviewProveedores) );
 	GtkTreeIter iter;
-	char sql[150];
+	char sql[256];
 	gchararray razon_social;
 	gchararray id_proveedor;
 	GError *error;
 
-	sprintf( sql, "SELECT id_proveedor, razon_social FROM Proveedor WHERE razon_social LIKE '%%%s%%' ORDER BY razon_social",filtro );
+	sprintf( sql, "SELECT id_proveedor, razon_social FROM Proveedor WHERE razon_social LIKE '%%%s%%' ORDER BY razon_social LIMIT 100",filtro );
 	//g_print("El SQL para obtener lista de proveedores: %s\n", sql);
 
 	if( conecta_bd() == -1 )
@@ -394,12 +414,12 @@ gboolean carga_articulos( const char *filtro, Data *data )
 {
 	GtkTreeSelection *selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(data->treeviewBuscarArticulo) );
 	GtkTreeIter iter;
-	char sql[250];
+	char sql[384];
 	gchararray codigo;
 	gchararray nombre;
 	GError *error;
 
-	sprintf( sql, "SELECT CONCAT(Subproducto.codigo, Articulo.codigo), Articulo.nombre FROM Articulo INNER JOIN Subproducto USING(id_subproducto) WHERE Articulo.nombre LIKE '%%%s%%' AND Articulo.id_linea NOT IN( 0, 10 ) AND Articulo.codigo IS NOT NULL ORDER BY Articulo.nombre",filtro );
+	sprintf( sql, "SELECT CONCAT(Subproducto.codigo, Articulo.codigo), Articulo.nombre FROM Articulo INNER JOIN Subproducto USING(id_subproducto) WHERE Articulo.nombre LIKE '%%%s%%' AND Articulo.id_linea NOT IN( 0, 10 ) AND Articulo.codigo IS NOT NULL ORDER BY Articulo.nombre LIMIT 100",filtro );
 	//g_print("El SQL para obtener lista de proveedores: %s\n", sql);
 
 	if( conecta_bd() == -1 )

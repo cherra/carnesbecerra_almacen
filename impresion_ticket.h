@@ -3,12 +3,8 @@
 *
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <stdarg.h>
-#include <mysql/mysql.h>
-//#include "funciones.h"
+
 gboolean imprimiendo = FALSE; /* Bandera de impresion !!! */
 
 #define MAXFIL 9999
@@ -19,20 +15,6 @@ MYSQL_ROW row, row2, row3;
 FILE *fpt, *fpt2, *fptlogo, *fpttemp; //Declaracion del archivo
 
 char tipoPago[20]="";
-char TicketImpresion[]               = "impresion/impresiones-tmp.txt";
-char TicketArriba[]                  = "impresion/ticket-arriba.txt";
-char TicketArribaServicioDomicilio[] = "impresion/ticket-servicio_domicilio_arriba.txt";
-char TicketAbajoServicioDomicilio[]  = "impresion/ticket-servicio_domicilio_abajo.txt";
-char TicketAbajo[100]                = "";
-char TicketAbajoCredito[]            = "impresion/ticket-abajo-credito.txt";
-char TicketAbajoContado[]            = "impresion/ticket-abajo-contado.txt";
-char AbrirCajon[]                    = "impresion/abrircajon.txt";
-
-char TicketLogo[] = "impresion/logo.epson";
-char TicketReimpresion[] = "impresion/reimpresion.epson";
-char FacturaConfig[] = "impresion/factura.conf.txt";
-char CobranzaConfig[] = "impresion/cobranza.conf.txt";
-char ImpresoraConfig[] = "impresion_conf/impresoras.conf.txt";
 char c[1500]; //Aqui se guarda las cadenas a imprimir
 int fac_nombre[99][4];
 int impresora_nombre[99][4];

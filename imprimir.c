@@ -1,70 +1,17 @@
 /*
-Jose Oviedo Uribe.
-
 Funcion para imprimir
-
-Se envia como parametro nombrearchivo
-y consulta
-
-Asi que se borraria de la funcion main la declaracion de variables y se le cambiaria de nombre al main agregando como parametro los 2 campos anteriores
 
 char nombrearchivo[50] = "prueba.txt"; //Nombre del archivo
 char *consulta = "default"; //Nombre de la impresora
 
-
 */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include<string.h>
-//char *tipo[] = { "serial","paralelo","cups","printfile"};
-
-/*void quitar_escape(char *cadconf){
-	//Funcion que quita los saltos de linea
-	int i,tam;
-	char cadtmp[50];
-	tam = strlen(cadconf);
-	for(i=0;i<tam;i++){
-		if(cadconf[i] == '\n')
-			break;
-		else{
-			cadtmp[i] = cadconf[i];
-			cadtmp[i+1] = '\0';
-		}
-	}
-	strcpy(cadconf,cadtmp);
-}*/
-
-/*int buscar_arreglo(char *cadconf){
-	//En tipo se dice que arreglo se va a comparar.
-	//tipo =  ----> tipo
-	int num_elements;
-	int salir = 0;
-	int i, regresa;
-	regresa = -1; //Valor que regresa en el return
-	num_elements=sizeof(tipo)/sizeof(char*); //Calcula el tamao del arreglo
-	i=-1;
-	//printf("\nTotal arreglo: %d",num_elements);
-	while (salir == 0 && i < num_elements){
-		if(strcmp(cadconf, tipo[i]) == 0){
-			//printf("\nEsto encontre: comparar: %s arreglo: %s",cadconf, nomb[i]);
-			regresa = i;
-			salir=1;
-		}
-		i++;
-	}
-	if(salir == 1){
-		i--;
-	}
-	return (regresa);
-}*/
 
 int manda_imprimir(char nombrearchivo[50], char *consulta){
 //char nombrearchivo[50] = "prueba.txt"; //Nombre del archivo
 //char *consulta = "default"; //Nombre de la impresora
 char impresora[100];
 
-char ImpresoraConfig[] = "impresion_conf/impresoras.conf.txt"; //Nombre del archivo de configuracion
+//char ImpresoraConfig[] = "impresion_conf/impresoras.conf.txt"; //Nombre del archivo de configuracion
 char c[1000]; //Aqui se guarda las cadenas a imprimir
 char cadconf[50];
 char *cadena_despues_de_trim;
@@ -172,7 +119,7 @@ printf("\nSacando informacion de la configuracion %s",consulta);
 					strcat(impresora,par3);
 				break;
 				case 2: //cups
-					strcpy(impresora,"lp.cups -d ");
+					strcpy(impresora,"lp -d ");
 					strcat(impresora,par3);
 					if (strcmp (consulta,"default") == 0)
 					{

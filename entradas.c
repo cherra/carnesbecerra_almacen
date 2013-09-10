@@ -5,7 +5,7 @@
  
 #include "support.h"
 
-#define UI_FILE "entradas.glade"
+//#define UI_FILE "entradas.glade"
 
 void on_treeselectionProveedores_changed( GtkTreeSelection *treeselectionProveedores, Data *data );
 
@@ -18,7 +18,12 @@ main( int    argc,
 	GtkBuilder *builder;
 	//GtkWidget  *window;
 	GError     *error = NULL;
- 
+        char uifile[128];
+        
+        homedir = getenv("HOME");  // Directorio Home del usuario
+        strcpy(uifile, homedir);
+        strcat(uifile, "/.carnesbecerra/entradas.glade"); // Archivo donde se define la interface
+        
 	/* Init GTK+ */
 	gtk_init( &argc, &argv );
  
@@ -26,7 +31,7 @@ main( int    argc,
 	builder = gtk_builder_new();
 	/* Load UI from file. If error occurs, report it and quit application.
 	* Replace "tut.glade" with your saved project. */
-	if( ! gtk_builder_add_from_file( builder, UI_FILE, &error ) )
+	if( ! gtk_builder_add_from_file( builder, uifile, &error ) )
 	{
 		g_warning( "%s", error->message );
 		g_free( error );
